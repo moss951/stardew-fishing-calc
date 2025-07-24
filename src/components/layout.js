@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
                 <a
                     href='https://github.com/brokencygnus/stardew-fishing-calc'
                     target={"_blank"}>
-                    <h1 className="text-xl sm:text-2xl font-bold">github.com/brokencygnus/stardew-fishing-calc</h1>
+                    <h1 className="text-xl sm:text-2xl font-bold">Forked from: github.com/brokencygnus/stardew-fishing-calc</h1>
                 </a>
             </div>
         </header>
