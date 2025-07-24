@@ -40,6 +40,7 @@ export default function Home() {
   const [averageGoldPerFish, setAverageGoldPerFish] = useState(0);
   const [jellyPrice, setJellyPrice] = useState(0);
   const [quality, setQuality] = useState(1);
+  const [bait, setBait] = useState(0);
 
   // update and pull Locations.xnb and Fish.xnb
   const [locationFishData, setLocationFishData] = useState([]);
@@ -465,13 +466,19 @@ export default function Home() {
         if (locationFishData[i].Id == "(O)CaveJelly") return 180;
       }
     });
+
+    let baitMultiplier;
+    if (bait === 2) baitMultiplier = 1.25; // wild bait on daily luck of 0.0
+    else if (bait === 1) baitMultiplier = 3; // challenge bait if done perfectly every time
+    else baitMultiplier = 1;
+
     let sumProduct = 0;
     for (let i = 0; i < filteredFishData.length; i++) {
       if (filteredFishData[i].sellPrice == undefined) {
         sumProduct += jellyPrice * filteredFishData[i].finalChance;
         continue;
       }
-      sumProduct += filteredFishData[i].sellPrice * filteredFishData[i].finalChance * quality;
+      sumProduct += filteredFishData[i].sellPrice * filteredFishData[i].finalChance * quality * baitMultiplier;
     }
     setAverageGoldPerFish(parseFloat(sumProduct).toFixed(2));
   }, [filteredFishData, locationFishData, jellyPrice, quality])
@@ -983,6 +990,27 @@ export default function Home() {
                         onChange={handleCheckboxChange}
                         id="isCuriosityLureActive"
                       /> 
+                      <SmallOptions 
+                        label="Using wild bait"
+                        deselectedColor="bg-gray-300"
+                        selectedColor="bg-white"
+                        checked={bait === 2}
+                        onChange={() => setBait(2)}
+                      />
+                      <SmallOptions 
+                        label="Using challenge bait"
+                        deselectedColor="bg-gray-300"
+                        selectedColor="bg-white"
+                        checked={bait === 1}
+                        onChange={() => setBait(1)}
+                      />
+                      <SmallOptions 
+                        label="Using other bait"
+                        deselectedColor="bg-gray-300"
+                        selectedColor="bg-white"
+                        checked={bait === 0}
+                        onChange={() => setBait(0)}
+                      />
                       <TargetedContainer
                         options={fishNames}
                         onSelect={handleTargetedBaitChange}
@@ -1014,7 +1042,7 @@ export default function Home() {
                       selectedColor="bg-blue-300"
                       hoverColor="bg-blue-100"
                       checked={quality === 1}
-                      onChange={() => setQuality(() => { return 1; })}
+                      onChange={() => setQuality(1)}
                     />
 
                     <RadioOptions
@@ -1023,7 +1051,7 @@ export default function Home() {
                       selectedColor="bg-gray-300"
                       hoverColor="bg-gray-100"
                       checked={quality === 1.25}
-                      onChange={() => setQuality(() => { return 1.25; })}
+                      onChange={() => setQuality(1.25)}
                     />
 
                     <RadioOptions
@@ -1032,7 +1060,7 @@ export default function Home() {
                       selectedColor="bg-yellow-300"
                       hoverColor="bg-yellow-100"
                       checked={quality === 1.5}
-                      onChange={() => setQuality(() => { return 1.5; })}
+                      onChange={() => setQuality(1.5)}
                     />
 
                     <RadioOptions
@@ -1041,7 +1069,7 @@ export default function Home() {
                       selectedColor="bg-purple-300"
                       hoverColor="bg-purple-100"
                       checked={quality === 2}
-                      onChange={() => setQuality(() => { return 2; })}
+                      onChange={() => setQuality(2)}
                     />
                   </div>
                 </div>
