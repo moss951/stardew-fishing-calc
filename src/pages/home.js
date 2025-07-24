@@ -39,6 +39,7 @@ export default function Home() {
   });
   const [averageGoldPerFish, setAverageGoldPerFish] = useState(0);
   const [jellyPrice, setJellyPrice] = useState(0);
+  const [quality, setQuality] = useState(1);
 
   // update and pull Locations.xnb and Fish.xnb
   const [locationFishData, setLocationFishData] = useState([]);
@@ -470,10 +471,10 @@ export default function Home() {
         sumProduct += jellyPrice * filteredFishData[i].finalChance;
         continue;
       }
-      sumProduct += filteredFishData[i].sellPrice * filteredFishData[i].finalChance;
+      sumProduct += filteredFishData[i].sellPrice * filteredFishData[i].finalChance * quality;
     }
     setAverageGoldPerFish(parseFloat(sumProduct).toFixed(2));
-  }, [filteredFishData, locationFishData, jellyPrice])
+  }, [filteredFishData, locationFishData, jellyPrice, quality])
 
   const handleTimeChange = (value) => setTimeOfDay(value);
   const handleFishingLevelChange = (value) => setFishingLevel(value);
@@ -1004,6 +1005,48 @@ export default function Home() {
               </div>
 
               <div className='my-4'>
+                <div className="shrink rounded-lg bg-purple-200 text-purple-700 p-2">
+                  <p className="lg:text-lg md:text-base font-bold mb-2">Quality</p>
+                  <div className="columns-3 md:columns-5 space-y-2 gap-2">
+                    <RadioOptions
+                      label="Common"
+                      deselectedColor="bg-white"
+                      selectedColor="bg-blue-300"
+                      hoverColor="bg-blue-100"
+                      checked={quality === 1}
+                      onChange={() => setQuality(() => { return 1; })}
+                    />
+
+                    <RadioOptions
+                      label="Silver"
+                      deselectedColor="bg-white"
+                      selectedColor="bg-gray-300"
+                      hoverColor="bg-gray-100"
+                      checked={quality === 1.25}
+                      onChange={() => setQuality(() => { return 1.25; })}
+                    />
+
+                    <RadioOptions
+                      label="Gold"
+                      deselectedColor="bg-white"
+                      selectedColor="bg-yellow-300"
+                      hoverColor="bg-yellow-100"
+                      checked={quality === 1.5}
+                      onChange={() => setQuality(() => { return 1.5; })}
+                    />
+
+                    <RadioOptions
+                      label="Iridium"
+                      deselectedColor="bg-white"
+                      selectedColor="bg-purple-300"
+                      hoverColor="bg-purple-100"
+                      checked={quality === 2}
+                      onChange={() => setQuality(() => { return 2; })}
+                    />
+                  </div>
+                </div>
+                <br></br>
+
                 <Accordion
                   title="Advanced Options"
                 >
@@ -1081,7 +1124,7 @@ export default function Home() {
                   chance={parseFloat(fish.finalChance*100).toFixed(2)+"%"}
                   // chance={Math.round(fish.finalChance*10000)/10000}
                   icon={iconPath}
-                  sellPrice={fish.sellPrice == undefined ? jellyPrice : fish.sellPrice}
+                  sellPrice={fish.sellPrice == undefined ? jellyPrice : fish.sellPrice * quality}
                 />
               );
             })}
