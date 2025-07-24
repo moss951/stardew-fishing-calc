@@ -1,4 +1,5 @@
 {
+  "homepage": "https://moss951.github.io/stardew-fishing-calc",
   "name": "fishingcalc_next",
   "version": "0.1.0",
   "private": true,
@@ -6,7 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -19,6 +22,7 @@
     "autoprefixer": "^10.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.2.1",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.38"
   }
 }
